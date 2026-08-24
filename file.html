@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScamShield Lab — Learn to Spot a Scam Before It Costs You</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #121822;
+    --border: #1f2937;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --accent: #22c55e;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  section {
+    padding: 4rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+  h2 { font-size: 2rem; margin-bottom: 1rem; }
+  h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+  p { color: var(--muted); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  .hero-actions { margin: 1.5rem 0; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .btn-primary { background: var(--accent); color: #04120a; border: none; }
+  .btn-secondary { color: var(--text); }
+
+  .stats { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+  .stat strong { display: block; font-size: 1.8rem; color: var(--accent); }
+  .stat span { color: var(--muted); font-size: 0.85rem; }
+
+  /* Live monitor panel */
+  .monitor {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.85rem;
+  }
+  .monitor-header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+  }
+  .rec { color: var(--danger); }
+  .monitor-line { margin-bottom: 0.4rem; }
+  .monitor-line .ok { color: var(--accent); }
+
+  /* Case files grid */
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .case-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .case-card:hover { border-color: var(--accent); }
+  .case-card .id { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.1em; }
+
+  /* About */
+  .about-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1.5rem;
+    max-width: 420px;
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #04120a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Help section */
+  .help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .help-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .help-card .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .help-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 0.75rem;
+    display: block;
+  }
+  footer.disclaimer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 2rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 800px) {
+    .hero { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div>
+    <span class="tag">SAFE · CONTROLLED · EDUCATIONAL ENVIRONMENT</span>
+    <h1>Learn to spot a scam <em>before</em> it costs you.</h1>
+    <p>
+      ScamShield Lab recreates real cyber crime tactics — phishing mail, fake job offers,
+      romance scams, UPI fraud, malicious links, and ransomware — in a safe simulator.
+      Live the attack. Feel the pressure. Then walk away knowing exactly how to spot it
+      next time.
+    </p>
+    <div class="hero-actions">
+      <a href="#simulators" class="btn btn-primary">Start a simulation ↓</a>
+      <a href="#help" class="btn btn-secondary">Report a real incident</a>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <strong>6</strong>
+        <span>Attack scenarios recreated</span>
+      </div>
+      <div class="stat">
+        <strong>100%</strong>
+        <span>Simulated — nothing is sent or stored</span>
+      </div>
+      <div class="stat">
+        <strong>0</strong>
+        <span>Real data ever leaves this page</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="monitor">
+    <div class="monitor-header">
+      <span>LIVE_MONITOR.log</span>
+      <span class="rec">● REC</span>
+    </div>
+    <div class="monitor-line">[scan] sender_domain... <span>spoofed</span></div>
+    <div class="monitor-line">[scan] link_target... <span>mismatched</span></div>
+    <div class="monitor-line">[scan] urgency_score... <span>high</span></div>
+    <div class="monitor-line">[scan] mfa_bypass_attempt... <span>detected</span></div>
+    <div class="monitor-line">[status] user... <span class="ok">protected</span></div>
+  </div>
+</section>
+
+<!-- CASE FILES -->
+<section id="simulators">
+  <span class="tag">CASE FILES</span>
+  <h2>Six ways scammers try to get you.</h2>
+  <p>
+    Pick a case to open the simulation. Each one plays out like the real thing — right up
+    until the moment you'd normally lose money, your account, or your files. Then we break
+    character and show you exactly what gave it away.
+  </p>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <span class="id">CASE-01</span>
+      <h3>Phishing Email</h3>
+      <p>A convincing bank alert asks you to "verify" your account before it's suspended.</p>
+    </div>
+    <div class="case-card">
+      <span class="id">CASE-02</span>
+      <h3>Fake Job Offer</h3>
+      <p>A recruiter promises a high-paying remote role — for a small "processing fee."</p>
+    </div>
+    <div class="case-card">
+      <span class="id">CASE-03</span>
+      <h3>Romance Scam</h3>
+      <p>An online connection builds trust for weeks, then needs urgent financial help.</p>
+    </div>
+    <div class="case-card">
+      <span class="id">CASE-04</span>
+      <h3>UPI Fraud</h3>
+      <p>A "refund" request or QR code scan quietly drains your account instead.</p>
+    </div>
+    <div class="case-card">
+      <span class="id">CASE-05</span>
+      <h3>Malicious Link</h3>
+      <p>A shortened link in a text or DM leads to a credential-harvesting page.</p>
+    </div>
+    <div class="case-card">
+      <span class="id">CASE-06</span>
+      <h3>Ransomware</h3>
+      <p>A disguised attachment locks your files and demands payment to unlock them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <span class="tag">ABOUT THIS PROJECT</span>
+  <h2>Built by students, for anyone who's ever hesitated over a suspicious link.</h2>
+  <p>
+    ScamShield Lab is a cyber security awareness project developed to give people hands-on,
+    risk-free exposure to the most common scams circulating today.
+  </p>
+
+  <div class="about-card">
+    <div class="avatar">AD</div>
+    <div>
+      <strong>Ashwani Durbude</strong>
+      <div style="font-size:0.8rem;color:var(--muted);">PROJECT GUIDE / MENTOR</div>
+      <p style="margin-top:0.4rem;font-size:0.9rem;">
+        Department of Computer Science &amp; Engineering (Cyber Security)<br>
+        GHRCEMN
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- HELP -->
+<section id="help">
+  <span class="tag">IF SOMETHING REAL HAPPENS</span>
+  <h2>Help is a call or click away.</h2>
+  <p>
+    If you've actually been targeted or scammed, don't wait — the first hour matters most
+    for freezing stolen funds. Use these official Government of India channels.
+  </p>
+
+  <div class="help-grid">
+    <div class="help-card">
+      <span class="label">NATIONAL CYBER CRIME HELPLINE</span>
+      <h3>Call now, 24×7</h3>
+      <p>Toll-free helpline to report financial cyber fraud and get guidance on next steps.</p>
+      <span class="help-number">1930</span>
+    </div>
+
+    <div class="help-card">
+      <span class="label">NATIONAL CYBER CRIME REPORTING PORTAL</span>
+      <h3>File a formal complaint online</h3>
+      <p>Report phishing, financial fraud, harassment, and other cyber crimes directly to the Ministry of Home Affairs portal.</p>
+      <a href="[cybercrime.gov.in](https://cybercrime.gov.in)" target="_blank" rel="noopener">cybercrime.gov.in ↗</a>
+    </div>
+
+    <div class="help-card">
+      <span class="label">CERT-IN</span>
+      <h3>Indian Computer Emergency Response Team</h3>
+      <p>Report malware, ransomware, and other technical security incidents.</p>
+      <a href="[cert-in.org.in](https://www.cert-in.org.in)" target="_blank" rel="noopener">cert-in.org.in ↗</a>
+    </div>
+
+    <div class="help-card">
+      <span class="label">WOMEN &amp; CHILD SAFETY</span>
+      <h3>Harassment or exploitation online</h3>
+      <p>National helpline for women in distress, including online harassment and blackmail.</p>
+      <span class="help-number">181</span>
+    </div>
+
+    <div class="help-card">
+      <span class="label">POLICE</span>
+      <h3>Emergency response</h3>
+      <p>For immediate danger or in-progress incidents, contact local police directly.</p>
+      <span class="help-number">100 / 112</span>
+    </div>
+
+    <div class="help-card">
+      <span class="label">RBI — BANKING FRAUD</span>
+      <h3>Block a compromised account fast</h3>
+      <p>Call your bank's official helpline (printed on your card / passbook) immediately to freeze transactions — never use a number from a suspicious message.</p>
+      <a href="[rbi.org.in](https://www.rbi.org.in)" target="_blank" rel="noopener">rbi.org.in ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer class="disclaimer">
+  Numbers and links above are official Government of India resources at the time of writing.
+  Always verify current details on the linked government site before relying on them in an emergency.
+</footer>
+
+</body>
+</html>
